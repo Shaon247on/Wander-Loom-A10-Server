@@ -30,16 +30,27 @@ async function run() {
     // await client.connect();
 
     const allTouristsSpots = client.db('AllTouristsSpots')
-    const allspots = allTouristsSpots.collection('AllSpots')
+    const allSpots = allTouristsSpots.collection('AllSpots')
     const addedSpots = allTouristsSpots.collection('AddedSpots')
 
 
-    app.post('/AllTouristsSpots', async(req, res)=>{
-      const newSpot = req.body
-      console.log(newSpot)
-      const result = await addedSpots.insertOne(newSpot)
+    app.get('/UpdateTouristsSpots', async(req, res)=>{
+      const cursor = allSpots.find()
+      const result = await cursor.toArray()
       res.send(result)
+
     })
+
+    app.post('/UpdateTouristsSpots', async (req, res) => {
+    const newSpot = req.body;
+    try {
+        const result1 = await addedSpots.insertOne(newSpot);
+        const result2 = await allSpots.insertOne(newSpot);
+        res.json({ result1, result2 });
+    } catch (err) {
+        console.error("Error inserting data into collections:", err);        
+    }
+});
 
 
 
