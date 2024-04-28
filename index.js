@@ -45,9 +45,7 @@ async function run() {
       const query = {_id: new ObjectId(id)}
       const result = await allSpots.findOne(query)
       res.send(result)
-    })
-
-    app.get()
+    })    
 
     app.post('/UpdateTouristsSpots', async (req, res) => {
     const newSpot = req.body;
@@ -59,9 +57,6 @@ async function run() {
         console.error("Error inserting data into collections:", err);        
     }
 });
-
-
-
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
